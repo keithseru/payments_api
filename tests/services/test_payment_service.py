@@ -23,3 +23,9 @@ class PaymentServiceTest(unittest.TestCase):
     def test_create_customer_throws_invalid_email(self):
         with self.assertRaisesRegex(ValueError, "Invalid email"):
             self.service.create_customer("Alice", "alice#example.com")
+    
+    def test_create_customer_throws_email_already_exists_email_registered_twice(self):
+        self.service.create_customer("Alice", "alice@example.com")
+        
+        with self.assertRaisesRegex(ValueError, 'Email already exists'):
+            self.service.create_customer("Alice", "alice@example.com")
