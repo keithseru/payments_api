@@ -6,7 +6,7 @@ def validateAmount(amount):
 def validateCurrency(currency):
     if not isinstance (currency, str):
         return False
-    if len(currency) < 3:
+    if len(currency) < 3 or len(currency) > 3:
         return False
     return True
 
