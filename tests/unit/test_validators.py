@@ -13,6 +13,12 @@ class ValidateAmount(unittest.TestCase):
         Returns false if amount is a negative integer
         '''
         self.assertFalse(validators.validateAmount(-1))
+    
+    def test_edge_test_minimum_boundary(self):
+        '''
+        Returns true for minimum boundary 1
+        '''
+        self.assertTrue(validators.validateAmount(1))
         
 
 if __name__ == "__main__":
