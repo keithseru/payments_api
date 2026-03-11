@@ -37,6 +37,13 @@ class ValidateAmount(unittest.TestCase):
         Returns false for null
         '''
         self.assertFalse(validators.validateAmount(None))
+    
+    def test_returns_false_for_string(self):
+        '''
+        Returns false for a string
+        '''
+        self.assertFalse(validators.validateAmount("100"))
+        
 
 if __name__ == "__main__":
     unittest.main()
