@@ -1,6 +1,5 @@
 def validateAmount(amount):
-    if amount > 0:
-        return True
+    return amount > 0
 
 def validateCurrency(currency):
     pass

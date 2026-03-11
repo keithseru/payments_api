@@ -7,6 +7,13 @@ class ValidateAmount(unittest.TestCase):
         Returns true if amount is a positive integer
         '''
         self.assertTrue(validators.validateAmount(100))
+    
+    def test_returns_false_amount_negative(self):
+        '''
+        Returns false if amount is a negative integer
+        '''
+        self.assertFalse(validators.validateAmount(-1))
+        
 
 if __name__ == "__main__":
     unittest.main()
