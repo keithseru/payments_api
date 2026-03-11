@@ -10,6 +10,7 @@ class PaymentService:
         
     def create_customer(self, name, email):
         customer = {
+            'id': generate_id("cus"),
             'name': name,
             'email': email
         }
