@@ -5,7 +5,7 @@ class FakePaymentRepo:
         self.refunds = {}
 
     def save_customer(self, customer):
-        self.customer[customer["id"]] = customer
+        self.customers[customer["id"]] = customer
         return customer
     
     def find_customer_by_id(self, customer_id):

@@ -4,6 +4,7 @@ from app.utils.validators import (
     validate_email,
     generate_id,
 )
+
 class PaymentService:
     def __init__(self, repo):
         self.repo = repo
@@ -12,13 +13,18 @@ class PaymentService:
         if not name:
             raise ValueError("Name is required")
         if not validate_email(email):
-            raise ValueError("Invalid email") 
+            raise ValueError("Invalid email")
+        
+        existing_customer = self.repo.find_customer_by_email(email)
+        if existing_customer:
+            raise ValueError("Email already exists")
         
         customer = {
             'id': generate_id("cus"),
             'name': name,
             'email': email
         }
+        self.repo.save_customer(customer)
         return customer
     
     def create_payment(self, customer_id, amount, currency):
