@@ -7,4 +7,6 @@ class ValidateAmount(unittest.TestCase):
         Returns true if amount is a positive integer
         '''
         assert validateAmount(100) is True
-        
+
+if __name__ == "__main__":
+    unittest.main()
