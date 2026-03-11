@@ -81,6 +81,13 @@ class ValidateEmail(unittest.TestCase):
         Returns False if @ is missing in email
         '''
         self.assertFalse(validators.validateEmail('aliceexample.com'))
+    
+    def test_returns_false_for_empty_string(self):
+        '''
+        Returns false if string is empty
+        '''
+        self.assertFalse(validators.validateEmail(""))
+
         
 if __name__ == "__main__":
     unittest.main()
