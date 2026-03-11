@@ -25,6 +25,12 @@ class ValidateAmount(unittest.TestCase):
         Returns false for amount 0
         '''
         self.assertFalse(validators.validateAmount(0))
+    
+    def test_returns_false_for_decimal(self):
+        '''
+        Returns false for decimal number
+        '''
+        self.assertFalse(validators.validateAmount(9.99))
         
 
 if __name__ == "__main__":
