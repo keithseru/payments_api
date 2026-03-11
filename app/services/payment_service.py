@@ -9,6 +9,9 @@ class PaymentService:
         self.repo = repo
         
     def create_customer(self, name, email):
+        if not name:
+            raise ValueError("Name is required")
+        
         customer = {
             'id': generate_id("cus"),
             'name': name,
