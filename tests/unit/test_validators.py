@@ -50,6 +50,12 @@ class ValidateCurrency(unittest.TestCase):
         Returns true for a three string character
         '''
         self.assertTrue(validators.validateCurrency('usd'))
+    
+    def test_returns_false_two_string_char(self):
+        '''
+        Returns false if the str has less than 3 chars
+        '''
+        self.assertFalse(validators.validateCurrency('us'))
         
 
 if __name__ == "__main__":
