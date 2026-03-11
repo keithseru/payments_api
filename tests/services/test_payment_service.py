@@ -15,3 +15,8 @@ class PaymentServiceTest(unittest.TestCase):
     def test_create_customer_generates_unique_id_prefixed_with_cus(self):
         customer = self.service.create_customer("Alice", "alice@example.com")
         self.assertTrue(customer['id'].startswith('cus_'))
+    
+    def test_create_customer_throws_name_is_required_when_name_empty(self):
+        with self.assertRaisesRegex(ValueError, "Name is required"):
+            self.service.create_customer("", "alice@example.com")
+        
