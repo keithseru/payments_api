@@ -4,7 +4,9 @@ def validateAmount(amount):
     return amount > 0
 
 def validateCurrency(currency):
-    pass
+    if not isinstance (currency, str):
+        return False
+    return True
 
 def validateEmail(email):
     pass
