@@ -11,6 +11,8 @@ class PaymentService:
     def create_customer(self, name, email):
         if not name:
             raise ValueError("Name is required")
+        if not validate_email(email):
+            raise ValueError("Invalid email") 
         
         customer = {
             'id': generate_id("cus"),
