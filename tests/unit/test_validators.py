@@ -87,7 +87,11 @@ class ValidateEmail(unittest.TestCase):
         Returns false if string is empty
         '''
         self.assertFalse(validators.validateEmail(""))
-
+    
+class GenerateIdTests(unittest.TestCase):
+    def test_returns_string_starting_with_prefix(self):
+        result = validators.generateId("pay")
+        self.assertTrue(result.startswith("pay_"))
         
 if __name__ == "__main__":
     unittest.main()
