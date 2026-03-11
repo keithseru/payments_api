@@ -75,6 +75,12 @@ class ValidateEmail(unittest.TestCase):
         Returns true if email contains @ and .
         '''
         self.assertTrue(validators.validateEmail('alice@example.com'))
+    
+    def test_returns_false_missing_symbol(self):
+        '''
+        Returns False if @ is missing in email
+        '''
+        self.assertFalse(validators.validateEmail('aliceexample.com'))
         
 if __name__ == "__main__":
     unittest.main()
