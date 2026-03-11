@@ -63,6 +63,12 @@ class ValidateCurrency(unittest.TestCase):
         '''
         self.assertFalse(validators.validateCurrency('usdd'))
         
+    def test_returns_false_for_empty_string(self):
+        '''
+        Returns false for empty string
+        '''
+        self.assertFalse(validators.validateCurrency('')) 
+        
         
 
 if __name__ == "__main__":
