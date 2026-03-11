@@ -69,7 +69,12 @@ class ValidateCurrency(unittest.TestCase):
         '''
         self.assertFalse(validators.validateCurrency('')) 
         
+class ValidateEmail(unittest.TestCase):
+    def test_retuns_true_for_contains_symbols(self):     
+        '''
+        Returns true if email contains @ and .
+        '''
+        self.assertTrue(validators.validateCurrency('alice@example.com'))
         
-
 if __name__ == "__main__":
     unittest.main()
