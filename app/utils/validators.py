@@ -1,3 +1,5 @@
+import uuid
+
 def validateAmount(amount):
     if not isinstance (amount, int):
         return False
@@ -15,5 +17,5 @@ def validateEmail(email):
         return False
     return True
 
-def generateId(prefix):
-    pass
+def generateId(prefix) -> str:
+    return f"{prefix}_"
