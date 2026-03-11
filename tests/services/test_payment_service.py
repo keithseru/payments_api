@@ -19,4 +19,7 @@ class PaymentServiceTest(unittest.TestCase):
     def test_create_customer_throws_name_is_required_when_name_empty(self):
         with self.assertRaisesRegex(ValueError, "Name is required"):
             self.service.create_customer("", "alice@example.com")
-        
+    
+    def test_create_customer_throws_invalid_email(self):
+        with self.assertRaisesRegex(ValueError, "Invalid email"):
+            self.service.create_customer("Alice", "alice#example.com")
