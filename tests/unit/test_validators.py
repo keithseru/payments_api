@@ -19,6 +19,12 @@ class ValidateAmount(unittest.TestCase):
         Returns true for minimum boundary 1
         '''
         self.assertTrue(validators.validateAmount(1))
+    
+    def test_edge_test_0(self):
+        '''
+        Returns false for amount 0
+        '''
+        self.assertFalse(validators.validateAmount(0))
         
 
 if __name__ == "__main__":
