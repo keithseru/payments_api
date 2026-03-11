@@ -92,6 +92,11 @@ class GenerateIdTests(unittest.TestCase):
     def test_returns_string_starting_with_prefix(self):
         result = validators.generateId("pay")
         self.assertTrue(result.startswith("pay_"))
+    
+    def test_returns_different_value_on_each_call(self):
+        result1 = validators.generateId("pay")
+        result2 = validators.generateId("pay")
+        self.assertNotEqual(result1, result2)
         
 if __name__ == "__main__":
     unittest.main()
