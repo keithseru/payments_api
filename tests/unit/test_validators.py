@@ -43,6 +43,13 @@ class ValidateAmount(unittest.TestCase):
         Returns false for a string
         '''
         self.assertFalse(validators.validateAmount("100"))
+
+class ValidateCurrency(unittest.TestCase):
+    def test_returns_true_three_string_char(self):
+        '''
+        Returns true for a three string character
+        '''
+        self.assertTrue(validators.validateCurrency('usd'))
         
 
 if __name__ == "__main__":
