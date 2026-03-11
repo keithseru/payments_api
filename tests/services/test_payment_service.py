@@ -1,4 +1,6 @@
 import unittest
+from app.services.payment_service import PaymentService
+from app.repos.fake_payment_repo import FakePaymentRepo
 
 class PaymentServiceTest(unittest.TestCase):
     def test_create_customer_returns_customer_with_correct_name_and_email(self):
