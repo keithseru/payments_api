@@ -56,6 +56,13 @@ class ValidateCurrency(unittest.TestCase):
         Returns false if the str has less than 3 chars
         '''
         self.assertFalse(validators.validateCurrency('us'))
+    
+    def test_returns_false_more_than_three_chars(self):
+        '''
+        Returns false if currency has more than three chars
+        '''
+        self.assertFalse(validators.validateCurrency('usdd'))
+        
         
 
 if __name__ == "__main__":
