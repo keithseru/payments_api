@@ -9,6 +9,9 @@ class PaymentServiceTest(unittest.TestCase):
     
     def test_create_customer_returns_customer_with_correct_name_and_email(self):
         customer = self.service.create_customer("Alice", "alice@example.com")
-        
         self.assertEqual(customer['name'], "Alice")
         self.assertEqual(customer['email'], 'alice@example.com')
+    
+    def test_create_customer_generates_unique_id_prefixed_with_cus(self):
+        customer = self.service.create_customer("Alice", "alice@example.com")
+        self.assertTrue(customer['id'].startswith('cus_'))
