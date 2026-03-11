@@ -9,7 +9,11 @@ class PaymentService:
         self.repo = repo
         
     def create_customer(self, name, email):
-        pass
+        customer = {
+            'name': name,
+            'email': email
+        }
+        return customer
     
     def create_payment(self, customer_id, amount, currency):
         pass
