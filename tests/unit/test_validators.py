@@ -74,7 +74,7 @@ class ValidateEmail(unittest.TestCase):
         '''
         Returns true if email contains @ and .
         '''
-        self.assertTrue(validators.validateCurrency('alice@example.com'))
+        self.assertTrue(validators.validateEmail('alice@example.com'))
         
 if __name__ == "__main__":
     unittest.main()

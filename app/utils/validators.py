@@ -11,7 +11,9 @@ def validateCurrency(currency):
     return True
 
 def validateEmail(email):
-    pass
+    if "@" not in email or "." not in email:
+        return False
+    return True
 
 def generateId(prefix):
     pass
