@@ -40,6 +40,9 @@ class PaymentService:
         if not validate_amount(amount):
             raise ValueError("Invalid amount")
         
+        if not validate_currency(currency):
+            raise ValueError("Invalid currency")
+        
         payment = {
             'status': STATUS.PENDING,
             'id': generate_id('pay'),
