@@ -40,4 +40,6 @@ class PaymentServiceTest(unittest.TestCase):
         payment = self.service.create_payment(customer['id'], 2999, 'usd')
         self.assertTrue(payment["id"].startswith('pay_'))
         
-        
+    def test_create_payment_throw_error_when_customerid_unknown(self):
+        with self.assertRaisesRegex (ValueError, "Customer not found"):
+            self.service.create_payment('cus_unknown', 2999, "usd")   
