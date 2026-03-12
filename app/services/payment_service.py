@@ -65,7 +65,16 @@ class PaymentService:
         return payment
     
     def fail(self, payment_id):
-        pass
+        payment = self.repo.find_payment_by_id(payment_id)
+        if not payment:
+            raise ValueError("Payment not found")
+
+        if payment["status"] != STATUS.PENDING:
+            raise ValueError("Cannot fail a payment that is not pending")
+
+        payment["status"] = STATUS.FAILED
+        self.repo.save_payment(payment)
+        return payment
     
     def refund(self, payment_id, amount):
         pass

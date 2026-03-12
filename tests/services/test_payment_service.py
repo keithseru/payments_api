@@ -83,4 +83,11 @@ class PaymentServiceTest(unittest.TestCase):
         
         with self.assertRaisesRegex(ValueError, "Cannot capture"):
             self.service.capture(payment["id"])
+    
+    def test_capture_throws_when_payment_status_failed(self):
+        customer = self.service.create_customer("James", "james@email.com")
+        payment = self.service.create_payment(customer["id"], 3999, 'kes')
+        self.service.fail(payment["id"])
         
+        with self.assertRaisesRegex(ValueError, "Canot capture"):
+            self.service.capture(payment['id'])
