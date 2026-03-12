@@ -36,10 +36,13 @@ class PaymentService:
         customer = self.repo.find_customer_by_id(customer_id)
         if not customer:
             raise ValueError("Customer not found")
+        if amount == 0:
+            raise ValueError("Invalid amount")
         
         payment = {
             'status': STATUS.PENDING,
-            'id': generate_id('pay')
+            'id': generate_id('pay'),
+            'amount': amount,
         }
         
         return payment
