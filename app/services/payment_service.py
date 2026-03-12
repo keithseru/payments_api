@@ -34,6 +34,8 @@ class PaymentService:
     
     def create_payment(self, customer_id, amount, currency):
         customer = self.repo.find_customer_by_id(customer_id)
+        if not customer:
+            raise ValueError("Customer not found")
         
         payment = {
             'status': STATUS.PENDING,
