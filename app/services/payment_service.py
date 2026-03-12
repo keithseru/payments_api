@@ -49,6 +49,7 @@ class PaymentService:
             'amount': amount,
         }
         
+        self.repo.save_payment(payment)
         return payment
     
     def capture(self, payment_id):

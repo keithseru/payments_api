@@ -63,3 +63,6 @@ class PaymentServiceTest(unittest.TestCase):
         customer = self.service.create_customer("James", 'james@email.com')
         with self.assertRaisesRegex(ValueError, "Invalid currency"):
             self.service.create_payment(customer['id'], 2999, "abcd")
+    
+    def test_capture_chages_payment_status_from_pending_to_sucdeeded(self):
+        pass

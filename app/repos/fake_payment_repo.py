@@ -16,3 +16,7 @@ class FakePaymentRepo:
             if customer['email'] == email:
                 return customer
         return None
+
+    def save_payment(self, payment):
+        self.payments[payment['id']] = payment
+        return payment
