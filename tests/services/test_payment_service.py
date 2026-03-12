@@ -116,6 +116,7 @@ class PaymentServiceTest(unittest.TestCase):
     def test_refund_throws_when_refund_greater_than_payment(self):
         customer = self.service.create_customer("Bond", "bond@email.com")
         payment = self.service.create_payment(customer["id"], 5999, 'gbp')
+        self.service.capture(payment['id'])
         
         with self.assertRaisesRegex(ValueError, 'Refund exceeds payment amount'):
             self.service.refund(payment['id'], 7999)
