@@ -5,6 +5,11 @@ from app.utils.validators import (
     generate_id,
 )
 
+class STATUS:
+    PENDING = "pending"
+    SUCCEEDED = "succeeded"
+    FAILED = "failed"
+
 class PaymentService:
     def __init__(self, repo):
         self.repo = repo
