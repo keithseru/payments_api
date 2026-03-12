@@ -98,3 +98,7 @@ class PaymentServiceTest(unittest.TestCase):
         self.service.fail(payment["id"])
         
         self.assertEqual(payment['status'], STATUS.FAILED)
+        
+    def test_refund_throws_when_payment_unknown(self):
+        with self.assertRaisesRegex(ValueError, "Payment not found"):
+            self.service.refund('pay_unknown')

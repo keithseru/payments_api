@@ -76,7 +76,7 @@ class PaymentService:
         self.repo.save_payment(payment)
         return payment
     
-    def refund(self, payment_id, amount):
+    def refund(self, payment_id):
         pass
     
     def get_payement(self, id):
