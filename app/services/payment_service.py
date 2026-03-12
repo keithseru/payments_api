@@ -83,6 +83,9 @@ class PaymentService:
         if payment['status'] == STATUS.PENDING:
             raise ValueError("Cannot refund")
         
+        if payment['status'] == STATUS.FAILED:
+            raise ValueError("Cannot refund")
+        
         refunds = self.repo.find_refunds_by_payment(payment_id)
         total_refunded = sum(refund['amount'] for refund in refunds)
         
