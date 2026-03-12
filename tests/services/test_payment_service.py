@@ -75,5 +75,12 @@ class PaymentServiceTest(unittest.TestCase):
     def test_capture_throws_payment_not_found_when_id_unknown(self):
         with self.assertRaisesRegex(ValueError, "Payment not found"):
             self.service.capture('pay_unknown')
+    
+    def test_capture_throws_cannot_capture_when_payment_status_already_succeeded(self):
+        customer = self.service.create_customer("Alice", "alice@example.com")
+        payment = self.service.create_payment(customer['id'], 2999, 'usd')
+        self.service.capture(payment["id"])
         
+        with self.assertRaisesRegex(ValueError, "Cannot capture"):
+            self.service.capture(payment["id"])
         
