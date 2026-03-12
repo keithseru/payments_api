@@ -29,8 +29,8 @@ class PaymentService:
             'name': name,
             'email': email
         }
-        self.repo.save_customer(customer)
-        return customer
+        return self.repo.save_customer(customer)
+        
     
     def create_payment(self, customer_id, amount, currency):
         customer = self.repo.find_customer_by_id(customer_id)
@@ -49,8 +49,7 @@ class PaymentService:
             'amount': amount,
         }
         
-        self.repo.save_payment(payment)
-        return payment
+        return self.repo.save_payment(payment)
     
     def capture(self, payment_id):
         payment = self.repo.find_payment_by_id(payment_id)
@@ -62,7 +61,7 @@ class PaymentService:
             raise ValueError("Cannot capture")
         
         payment['status'] = 'succeeded'
-        return payment
+        return self.repo.save_payment(payment)
     
     def fail(self, payment_id):
         payment = self.repo.find_payment_by_id(payment_id)
@@ -73,11 +72,14 @@ class PaymentService:
             raise ValueError("Cannot fail a payment that is not pending")
 
         payment["status"] = STATUS.FAILED
-        self.repo.save_payment(payment)
-        return payment
+        return self.repo.save_payment(payment)
+        
     
     def refund(self, payment_id):
-        pass
+        payment = self.repo.find_payment_by_id(payment_id)
+        if not payment:
+            raise ValueError("Payment not found")
+        return payment 
     
     def get_payement(self, id):
         pass
