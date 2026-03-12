@@ -60,7 +60,7 @@ class PaymentService:
         if payment["status"] != STATUS.PENDING:
             raise ValueError("Cannot capture")
         
-        payment['status'] = 'succeeded'
+        payment['status'] = STATUS.SUCCEEDED
         return self.repo.save_payment(payment)
     
     def fail(self, payment_id):
@@ -91,11 +91,11 @@ class PaymentService:
         
         return payment 
     
-    def get_payement(self, id):
-        pass
-    
-    def get_customer(self, id):
-        pass
-    
+    def get_payment(self, payment_id):
+        return self.repo.find_payment_by_id(payment_id)
+
+    def get_customer(self, customer_id):
+        return self.repo.find_customer_by_id(customer_id)
+
     def get_payments_for_customer(self, customer_id):
-        pass
+        return self.repo.find_payments_by_customer(customer_id)
