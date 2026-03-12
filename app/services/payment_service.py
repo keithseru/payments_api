@@ -52,27 +52,20 @@ class PaymentService:
         return self.repo.save_payment(payment)
     
     def capture(self, payment_id):
-        payment = self.repo.find_payment_by_id(payment_id)
-        
-        if not payment:
-            raise ValueError("Payment not found")
-        
-        if payment["status"] != STATUS.PENDING:
-            raise ValueError("Cannot capture")
-        
-        payment['status'] = STATUS.SUCCEEDED
-        return self.repo.save_payment(payment)
+        return self._transition_status(
+            payment_id=payment_id,
+            required_status=STATUS.PENDING,
+            new_status=STATUS.SUCCEEDED,
+            error_message="Cannot capture",
+        )
     
     def fail(self, payment_id):
-        payment = self.repo.find_payment_by_id(payment_id)
-        if not payment:
-            raise ValueError("Payment not found")
-
-        if payment["status"] != STATUS.PENDING:
-            raise ValueError("Cannot fail a payment that is not pending")
-
-        payment["status"] = STATUS.FAILED
-        return self.repo.save_payment(payment)
+        return self._transition_status(
+            payment_id=payment_id,
+            required_status=STATUS.PENDING,
+            new_status=STATUS.FAILED,
+            error_message="Cannot fail",
+        )
         
     
     def refund(self, payment_id, amount):
@@ -99,3 +92,14 @@ class PaymentService:
 
     def get_payments_for_customer(self, customer_id):
         return self.repo.find_payments_by_customer(customer_id)
+    
+    def _transition_status(self, payment_id, required_status, new_status, error_message):
+        payment = self.repo.find_payment_by_id(payment_id)
+        if not payment:
+            raise ValueError("Payment not found")
+        
+        if payment["status"] != required_status:
+            raise ValueError(error_message)
+        
+        payment["status"] = new_status
+        return self.repo.save_payment(payment)
