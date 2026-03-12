@@ -71,3 +71,9 @@ class PaymentServiceTest(unittest.TestCase):
         updated = self.service.capture(payment['id'])
         
         self.assertEqual(updated['status'], STATUS.SUCCEEDED)
+    
+    def test_capture_throws_payment_not_found_when_id_unknown(self):
+        with self.assertRaisesRegex(ValueError, "Payment not found"):
+            self.service.capture('pay_unknown')
+        
+        
