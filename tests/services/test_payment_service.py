@@ -58,3 +58,8 @@ class PaymentServiceTest(unittest.TestCase):
         customer = self.service.create_customer("Keith", 'keith@email.com')
         with self.assertRaisesRegex(ValueError, "Invalid amount"):
             self.service.create_payment(customer['id'], 9.99, 'ugx')
+    
+    def test_create_payment_throws_error_when_currency_not_three_chars(self):
+        customer = self.service.create_customer("James", 'james@email.com')
+        with self.assertRaisesRegex(ValueError, "Invalid currency"):
+            self.service.create_payment(customer['id'], 2999, "abcd")
