@@ -36,7 +36,8 @@ class PaymentService:
         customer = self.repo.find_customer_by_id(customer_id)
         
         payment = {
-            'status': STATUS.PENDING
+            'status': STATUS.PENDING,
+            'id': generate_id('pay')
         }
         
         return payment
