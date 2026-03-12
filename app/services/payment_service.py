@@ -36,7 +36,8 @@ class PaymentService:
         customer = self.repo.find_customer_by_id(customer_id)
         if not customer:
             raise ValueError("Customer not found")
-        if amount <= 0:
+        
+        if not validate_amount(amount):
             raise ValueError("Invalid amount")
         
         payment = {
