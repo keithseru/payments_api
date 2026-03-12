@@ -33,7 +33,13 @@ class PaymentService:
         return customer
     
     def create_payment(self, customer_id, amount, currency):
-        pass
+        customer = self.repo.find_customer_by_id(customer_id)
+        
+        payment = {
+            'status': STATUS.PENDING
+        }
+        
+        return payment
     
     def capture(self, payment_id):
         pass

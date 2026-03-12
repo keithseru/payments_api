@@ -1,5 +1,5 @@
 import unittest
-from app.services.payment_service import PaymentService
+from app.services.payment_service import PaymentService, STATUS
 from app.repos.fake_payment_repo import FakePaymentRepo
 
 class PaymentServiceTest(unittest.TestCase):
