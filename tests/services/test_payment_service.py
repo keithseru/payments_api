@@ -65,4 +65,9 @@ class PaymentServiceTest(unittest.TestCase):
             self.service.create_payment(customer['id'], 2999, "abcd")
     
     def test_capture_chages_payment_status_from_pending_to_sucdeeded(self):
-        pass
+        customer = self.service.create_customer("James", 'james@email.com')
+        payment = self.service.create_payment(customer['id'], 2999, 'ugx')
+        
+        updated = self.service.capture(payment['id'])
+        
+        self.assertEqual(updated['status'], STATUS.SUCCEEDED)

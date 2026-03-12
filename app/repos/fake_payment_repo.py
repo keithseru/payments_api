@@ -20,3 +20,12 @@ class FakePaymentRepo:
     def save_payment(self, payment):
         self.payments[payment['id']] = payment
         return payment
+    
+    def find_payment_by_id(self, payment_id):
+        return self.payments.get(payment_id)
+    
+    def find_payment_by_customer(self, customer_id):
+        return [
+            p for p in self.payments.values()
+            if p['customerId'] == customer_id
+        ]
