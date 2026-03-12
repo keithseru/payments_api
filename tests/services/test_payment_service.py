@@ -91,3 +91,10 @@ class PaymentServiceTest(unittest.TestCase):
         
         with self.assertRaisesRegex(ValueError, "Cannot capture"):
             self.service.capture(payment['id'])
+    
+    def test_fail_changes_payment_status_to_failed(self):
+        customer = self.service.create_customer("James", "james@email.com")
+        payment = self.service.create_payment(customer["id"], 3999, 'kes')
+        self.service.fail(payment["id"])
+        
+        self.assertEqual(payment['status'], STATUS.FAILED)
