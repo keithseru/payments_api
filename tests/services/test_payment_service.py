@@ -48,3 +48,9 @@ class PaymentServiceTest(unittest.TestCase):
         customer = self.service.create_customer("Keith", 'keiht@email.com')
         with self.assertRaisesRegex(ValueError, "Invalid amount"):
             self.service.create_payment(customer['id'], 0, 'ugx')
+    
+    def test_create_payment_throws_error_when_amount_negative(self):
+        customer = self.service.create_customer("Keith", 'keith@email.com')
+        with self.assertRaisesRegex(ValueError, "Invalid amount"):
+            self.service.create_payment(customer['id'], -20, 'ugx')
+    
