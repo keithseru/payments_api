@@ -119,3 +119,10 @@ class PaymentServiceTest(unittest.TestCase):
         
         with self.assertRaisesRegex(ValueError, 'Refund exceeds payment amount'):
             self.service.refund(payment['id'], 7999)
+    
+    def test_refund_throws_when_payment_status_pending(self):
+        customer = self.service.create_customer("James", "james@email.com")
+        payment = self.service.create_payment(customer["id"], 3999, 'kes')
+        
+        with self.assertRaisesRegex(ValueError, "Cannot refund"):
+            self.service.refund(payment['id'], 1000)
