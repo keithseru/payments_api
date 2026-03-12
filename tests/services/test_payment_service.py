@@ -29,3 +29,9 @@ class PaymentServiceTest(unittest.TestCase):
         
         with self.assertRaisesRegex(ValueError, 'Email already exists'):
             self.service.create_customer("Alice", "alice@example.com")
+    
+    def test_create_payment_returns_payment_with_status_pending(self):
+        customer = self.service.create_customer("Alice", "alice@example.com")
+        payment = self.service.create_payment(customer['id'], 2999, 'usd')
+        
+        self.assertEqual(payment['status'], STATUS.PENDING)
