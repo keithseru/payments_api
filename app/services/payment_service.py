@@ -75,7 +75,7 @@ class PaymentService:
         return self.repo.save_payment(payment)
         
     
-    def refund(self, payment_id):
+    def refund(self, payment_id, amount):
         payment = self.repo.find_payment_by_id(payment_id)
         if not payment:
             raise ValueError("Payment not found")

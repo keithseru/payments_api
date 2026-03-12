@@ -101,4 +101,21 @@ class PaymentServiceTest(unittest.TestCase):
         
     def test_refund_throws_when_payment_unknown(self):
         with self.assertRaisesRegex(ValueError, "Payment not found"):
-            self.service.refund('pay_unknown')
+            self.service.refund('pay_unknown', 1000)
+            
+    def test_refund_succeeds_when_amount_equals_full_payment_amount(self):
+        customer = self.service.create_customer("Bond", "bond@email.com")
+        payment = self.service.create_payment(customer["id"], 5999, 'gbp')
+        self.service.capture(payment['id'])
+        
+        refund = self.service.refund(payment['id'], 5999)
+        
+        self.assertEqual(refund['amount'], 5999)
+        self.assertEqual(refund['status'], STATUS.SUCCEEDED)
+        
+    def test_refund_throws_when_refund_greater_than_payment(self):
+        customer = self.service.create_customer("Bond", "bond@email.com")
+        payment = self.service.create_payment(customer["id"], 5999, 'gbp')
+        
+        with self.assertRaisesRegex('Refund exceeds payment amount'):
+            self.service.refund(payment['id'], 7999)
