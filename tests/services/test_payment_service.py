@@ -33,5 +33,11 @@ class PaymentServiceTest(unittest.TestCase):
     def test_create_payment_returns_payment_with_status_pending(self):
         customer = self.service.create_customer("Alice", "alice@example.com")
         payment = self.service.create_payment(customer['id'], 2999, 'usd')
-        
         self.assertEqual(payment['status'], STATUS.PENDING)
+        
+    def test_create_payment_generates_unique_idprefixed_with_pay(self):
+        customer = self.service.create_customer("Alice", "alice@example.com")
+        payment = self.service.create_payment(customer['id'], 2999, 'usd')
+        self.assertTrue(payment["id"].startswith('pay_'))
+        
+        
