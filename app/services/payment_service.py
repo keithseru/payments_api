@@ -54,6 +54,10 @@ class PaymentService:
     
     def capture(self, payment_id):
         payment = self.repo.find_payment_by_id(payment_id)
+        
+        if not payment:
+            raise ValueError("Payment not found")
+        
         payment['status'] = 'succeeded'
         return payment
     

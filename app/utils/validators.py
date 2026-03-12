@@ -18,5 +18,5 @@ def validate_email(email):
     return True
 
 def generate_id(prefix) -> str:
-    unique_part = uuid.uuid4().hex[6]
+    unique_part = uuid.uuid4().hex[8]
     return f"{prefix}_{unique_part}"
