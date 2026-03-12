@@ -79,6 +79,13 @@ class PaymentService:
         payment = self.repo.find_payment_by_id(payment_id)
         if not payment:
             raise ValueError("Payment not found")
+        
+        refunds = self.repo.find_refunds_by_payment(payment_id)
+        total_refunded = sum(refund['amount'] for refund in refunds)
+        
+        if total_refunded + amount > payment['amount']:
+            raise ValueError("Refund exceeds payment amount")
+        
         return payment 
     
     def get_payement(self, id):

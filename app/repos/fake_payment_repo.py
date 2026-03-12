@@ -29,3 +29,13 @@ class FakePaymentRepo:
             p for p in self.payments.values()
             if p['customerId'] == customer_id
         ]
+    
+    def save_refund(self, refund):
+        self.refunds[refund["id"]] = refund
+        return refund
+    
+    def find_refunds_by_payment(self, payment_id):
+        return [
+            refund for refund in self.refunds.values()
+            if refund["paymentId"] == payment_id
+        ]
