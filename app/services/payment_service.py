@@ -53,7 +53,9 @@ class PaymentService:
         return payment
     
     def capture(self, payment_id):
-        pass
+        payment = self.repo.find_payment_by_id(payment_id)
+        payment['status'] = 'succeeded'
+        return payment
     
     def fail(self, payment_id):
         pass
