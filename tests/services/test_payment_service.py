@@ -43,3 +43,8 @@ class PaymentServiceTest(unittest.TestCase):
     def test_create_payment_throw_error_when_customerid_unknown(self):
         with self.assertRaisesRegex (ValueError, "Customer not found"):
             self.service.create_payment('cus_unknown', 2999, "usd")   
+    
+    def test_create_payment_throws_error_when_amount_zero(self):
+        customer = self.service.create_customer("Keith", 'keiht@email.com')
+        with self.assertRaisesRegex(ValueError, "Invalid amount"):
+            self.service.create_payment(customer['id'], 0, 'ugx')
