@@ -58,6 +58,9 @@ class PaymentService:
         if not payment:
             raise ValueError("Payment not found")
         
+        if payment["status"] == STATUS.SUCCEEDED:
+            raise ValueError("Cannot capture")
+        
         payment['status'] = 'succeeded'
         return payment
     
