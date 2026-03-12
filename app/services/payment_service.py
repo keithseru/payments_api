@@ -80,10 +80,7 @@ class PaymentService:
         if not payment:
             raise ValueError("Payment not found")
         
-        if payment['status'] == STATUS.PENDING:
-            raise ValueError("Cannot refund")
-        
-        if payment['status'] == STATUS.FAILED:
+        if payment['status'] != STATUS.SUCCEEDED:
             raise ValueError("Cannot refund")
         
         refunds = self.repo.find_refunds_by_payment(payment_id)
