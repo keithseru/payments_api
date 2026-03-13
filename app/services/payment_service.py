@@ -47,6 +47,8 @@ class PaymentService:
             'status': STATUS.PENDING,
             'id': generate_id('pay'),
             'amount': amount,
+            'currency': currency,
+            'customerId': customer_id,
         }
         
         return self.repo.save_payment(payment)
@@ -82,7 +84,13 @@ class PaymentService:
         if total_refunded + amount > payment['amount']:
             raise ValueError("Refund exceeds payment amount")
         
-        return payment 
+        refund = {
+            "id": generate_id("ref"),
+            "paymentId": payment_id,
+            "amount": amount,
+            "status": STATUS.SUCCEEDED,
+        }
+        return self.repo.save_refund(refund) 
     
     def get_payment(self, payment_id):
         return self.repo.find_payment_by_id(payment_id)
