@@ -8,9 +8,7 @@ def validate_amount(amount):
 def validate_currency(currency):
     if not isinstance (currency, str):
         return False
-    if len(currency) < 3 or len(currency) > 3:
-        return False
-    return True
+    return len(currency) == 3
 
 def validate_email(email):
     if "@" not in email or "." not in email:
