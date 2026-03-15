@@ -30,3 +30,11 @@ class TestRefundRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json()["id"], "ref_1")
         self.mock_service.refund.assert_called_once_with("pay_1", 1000)
+    
+    def test_post_refunds_returns_400_when_payment_id_missing(self):
+        response = self.client.post("/refunds", json={
+            "amount": 1000,
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["detail"], "Payment ID is required")
