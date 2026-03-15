@@ -38,3 +38,5 @@ def capture_payment(payment_id: str, service: PaymentService = Depends(get_payme
     except ValueError as e:
         if str(e) == "Payment not found":
             raise HTTPException(status_code=404, detail=str(e))
+        if str(e) == "Cannot capture":
+            raise HTTPException(status_code=409, detail=str(e))
