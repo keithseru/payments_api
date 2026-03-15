@@ -103,6 +103,14 @@ class TestCustomerRoutes(unittest.TestCase):
         
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), {'detail':'Customer not found'})
+    
+    def test_get_customer_payments_unknown_customer_returns_404(self):
+        self.mock_service.get_payments_for_customer.side_effect = ValueError("Customer not found")
+
+        response = self.client.get("/customers/cus_unknown/payments")
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json(), detail="Customer not found")
 
 if __name__ == "__main__":
     unittest.main()

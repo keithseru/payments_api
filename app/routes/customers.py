@@ -35,3 +35,4 @@ def get_customer(customer_id: str, service: PaymentService = Depends(get_payment
         raise
     except Exception:
         raise HTTPException(status_code=500, detail="Something went wrong")
+
