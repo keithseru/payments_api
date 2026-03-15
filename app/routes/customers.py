@@ -16,5 +16,8 @@ def create_customer(payload: dict, service: PaymentService = Depends(get_payment
     if name is None:
         raise HTTPException(status_code=400, detail="Name is required")
     
+    if email is None:
+        raise HTTPException(status_code=400, detail="Email is required")
+    
     customer = service.create_customer(name, email)
     return customer
