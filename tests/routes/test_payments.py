@@ -71,3 +71,15 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.json(), {"detail": "Something went wrong"})
+    
+    def test_post_capture_returns_200_and_updated_payment_when_successful(self):
+        self.mock_service.capture.return_value = {
+            "id": "pay_1",
+            "status": "succeeded",
+        }
+
+        response = self.client.post("/payments/pay_1/capture")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["status"], "succeeded")
+        self.mock_service.capture.assert_called_once_with("pay_1")
