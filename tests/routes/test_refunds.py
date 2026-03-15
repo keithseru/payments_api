@@ -83,7 +83,7 @@ class TestRefundRoutes(unittest.TestCase):
         })
 
         self.assertEqual(response.status_code, 422)
-        self.assertEqual(response.json(), {"error": "Refund exceeds payment amount"})
+        self.assertEqual(response.json(), {"detail": "Refund exceeds payment amount"})
     
     
     
