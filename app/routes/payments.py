@@ -40,3 +40,7 @@ def capture_payment(payment_id: str, service: PaymentService = Depends(get_payme
             raise HTTPException(status_code=404, detail=str(e))
         if str(e) == "Cannot capture":
             raise HTTPException(status_code=409, detail=str(e))
+
+@router.get("")
+def list_payments(service: PaymentService = Depends(get_payment_service)):
+    return service.get_all_payments()
