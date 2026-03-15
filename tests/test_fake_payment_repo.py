@@ -38,6 +38,6 @@ class TestFakePaymentRepo(unittest.TestCase):
         }
         self.repo.save_customer(customer)
         
-        result = self.repo.find_customer_by_email('james@example.com')
+        result = self.repo.find_customer_by_email('james@email.com')
         self.assertEqual(result, customer)
     

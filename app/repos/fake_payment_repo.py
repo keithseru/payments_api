@@ -30,6 +30,12 @@ class FakePaymentRepo:
             if p['customerId'] == customer_id
         ]
     
+    def find_payment_by_email(self, customer_id):
+        return [
+            item for item in self.payments.values()
+            if item['customerId'] == customer_id
+        ]
+    
     def save_refund(self, refund):
         self.refunds[refund["id"]] = refund
         return refund
