@@ -24,3 +24,14 @@ def create_customer(payload: dict, service: PaymentService = Depends(get_payment
     customer = service.create_customer(name, email)
     return customer
 
+@router.get("/{customer_id}")
+def get_customer(customer_id: str, service: PaymentService = Depends(get_payment_service)):
+    try:
+        customer = service.get_customer(customer_id)
+        if not customer:
+            raise HTTPException(status_code=404, detail="Customer not found")
+        return customer
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
