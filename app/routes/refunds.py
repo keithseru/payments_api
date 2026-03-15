@@ -20,5 +20,9 @@ def create_refund(payload: dict, service: PaymentService = Depends(get_payment_s
     if amount is None:
         raise HTTPException(status_code=400, detail="Amount is required")
 
-    refund = service.refund(payment_id, amount)
-    return refund
+    try:
+        refund = service.refund(payment_id, amount)
+        return refund
+    except ValueError as e:
+        if str(e) == "Refund exceeds payment amount":
+            raise HTTPException(status_code=422, detail=str(e))
