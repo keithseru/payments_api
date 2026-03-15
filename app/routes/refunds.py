@@ -27,3 +27,14 @@ def create_refund(payload: dict, service: PaymentService = Depends(get_payment_s
         if str(e) == "Refund exceeds payment amount":
             raise HTTPException(status_code=422, detail=str(e))
 
+@router.get("/{refund_id}")
+def get_refund(refund_id: str, service: PaymentService = Depends(get_payment_service)):
+    try:
+        refund = service.get_refund(refund_id)
+        if not refund:
+            raise HTTPException(status_code=404, detail = "Refund not found")
+        return refund
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail = "Something went wrong")
