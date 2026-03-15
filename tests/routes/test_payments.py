@@ -196,3 +196,11 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), {"detail": "Invalid amount"})
+    
+    def test_get_payment_unknown_id_returns_404(self):
+        self.mock_service.get_payment.return_value = None
+
+        response = self.client.get("/payments/pay_unknown")
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json(), {"detail": "Payment not found"})

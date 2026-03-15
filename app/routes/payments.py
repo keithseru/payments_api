@@ -51,3 +51,15 @@ def list_payments(service: PaymentService = Depends(get_payment_service)):
         return service.get_all_payments()
     except: 
         raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.get("/{payment_id}")
+def get_payment(payment_id: str, service: PaymentService = Depends(get_payment_service)):
+    try:
+        payment = service.get_payment(payment_id)
+        if not payment:
+            raise HTTPException(status_code=404, detail ="Payment not found")
+        return payment
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail ="Something went wrong")

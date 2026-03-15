@@ -49,3 +49,4 @@ def get_customer_payments(customer_id: str, service: PaymentService = Depends(ge
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise HTTPException(status_code=500, detail="Something went wrong")
+
