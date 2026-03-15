@@ -99,3 +99,26 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 409)
         self.assertEqual(response.json()["detail"], "Cannot capture")
+    
+    def test_get_payments_returns_200_and_list_of_payments(self):
+        self.mock_service.get_all_payments.return_value = [
+            {
+                "id": "pay_1",
+                "customerId": "cus_1",
+                "amount": 2999,
+                "currency": "usd",
+                "status": "pending",
+            },
+            {
+                "id": "pay_2",
+                "customerId": "cus_2",
+                "amount": 5000,
+                "currency": "usd",
+                "status": "succeeded",
+            },
+        ]
+
+        response = self.client.get("/payments")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 2)
