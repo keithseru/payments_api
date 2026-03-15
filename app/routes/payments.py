@@ -43,4 +43,7 @@ def capture_payment(payment_id: str, service: PaymentService = Depends(get_payme
 
 @router.get("")
 def list_payments(service: PaymentService = Depends(get_payment_service)):
-    return service.get_all_payments()
+    try:
+        return service.get_all_payments()
+    except: 
+        raise HTTPException(status_code=500, detail="Something went wrong")
