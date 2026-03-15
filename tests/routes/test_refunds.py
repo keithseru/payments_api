@@ -58,4 +58,33 @@ class TestRefundRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 422)
         self.assertEqual(response.json()["detail"], "Refund exceeds payment amount")
     
+    def test_post_refunds_full_refund_returns_201(self):
+        self.mock_service.refund.return_value = {
+            "id": "ref_1",
+            "paymentId": "pay_1",
+            "amount": 2999,
+            "status": "succeeded",
+        }
+
+        response = self.client.post("/refunds", json={
+            "paymentId": "pay_1",
+            "amount": 2999,
+        })
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()["amount"], 2999)
+    
+    def test_post_refunds_one_penny_over_returns_422(self):
+        self.mock_service.refund.side_effect = ValueError("Refund exceeds payment amount")
+
+        response = self.client.post("/refunds", json={
+            "paymentId": "pay_1",
+            "amount": 3000,
+        })
+
+        self.assertEqual(response.status_code, 422)
+        self.assertEqual(response.json(), {"error": "Refund exceeds payment amount"})
+    
+    
+    
     
