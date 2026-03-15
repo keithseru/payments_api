@@ -8,21 +8,30 @@ def get_payment_service():
     repo = FakePaymentRepo()
     return PaymentService(repo)
 
-@router.post('', status_code=201)
+@router.post("", status_code=201)
 def create_customer(payload: dict, service: PaymentService = Depends(get_payment_service)):
-    name = payload.get('name')
-    email = payload.get('email')
-    
+    name = payload.get("name")
+    email = payload.get("email")
+
     if name is None:
         raise HTTPException(status_code=400, detail="Name is required")
     elif len(name) > 100:
         raise HTTPException(status_code=400, detail="Name is too long")
-    
+
     if email is None:
         raise HTTPException(status_code=400, detail="Email is required")
-    
-    customer = service.create_customer(name, email)
-    return customer
+
+    try:
+        customer = service.create_customer(name, email)
+        return customer
+    except ValueError as e:
+        if str(e) == "Invalid email":
+            raise HTTPException(status_code=400, detail=str(e))
+        if str(e) == "Email already exists":
+            raise HTTPException(status_code=409, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
 
 @router.get("/{customer_id}")
 def get_customer(customer_id: str, service: PaymentService = Depends(get_payment_service)):
