@@ -87,3 +87,34 @@ class TestFakePaymentRepo(unittest.TestCase):
         self.assertIn(payment_1, result)
         self.assertIn(payment_2, result)
         self.assertNotIn(payment_3, result)
+        
+    def test_find_refunds_by_payment_returns_all_linked_refunds(self):
+        refund_1 = {
+            "id": "ref_1",
+            "paymentId": "pay_1",
+            "amount": 500,
+            "status": "succeeded",
+        }
+        refund_2 = {
+            "id": "ref_2",
+            "paymentId": "pay_1",
+            "amount": 300,
+            "status": "succeeded",
+        }
+        refund_3 = {
+            "id": "ref_3",
+            "paymentId": "pay_2",
+            "amount": 200,
+            "status": "succeeded",
+        }
+
+        self.repo.save_refund(refund_1)
+        self.repo.save_refund(refund_2)
+        self.repo.save_refund(refund_3)
+
+        result = self.repo.find_refunds_by_payment("pay_1")
+
+        self.assertEqual(len(result), 2)
+        self.assertIn(refund_1, result)
+        self.assertIn(refund_2, result)
+        self.assertNotIn(refund_3, result) 
