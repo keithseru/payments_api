@@ -24,5 +24,8 @@ def create_payment(payload: dict, service: PaymentService = Depends(get_payment_
     if customer_id is None:
         raise HTTPException(status_code=400, detail="Customer ID is required")
     
-    payment = service.create_payment(customer_id, amount, currency)
-    return payment
+    try:
+        payment = service.create_payment(customer_id, amount, currency)
+        return payment
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
