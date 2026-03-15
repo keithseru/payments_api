@@ -32,5 +32,9 @@ def create_payment(payload: dict, service: PaymentService = Depends(get_payment_
 
 @router.post("/{payment_id}/capture")
 def capture_payment(payment_id: str, service: PaymentService = Depends(get_payment_service)):
-    payment = service.capture(payment_id)
-    return payment
+    try:
+        payment = service.capture(payment_id)
+        return payment
+    except ValueError as e:
+        if str(e) == "Payment not found":
+            raise HTTPException(status_code=404, detail=str(e))
