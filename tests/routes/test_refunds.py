@@ -85,6 +85,12 @@ class TestRefundRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 422)
         self.assertEqual(response.json(), {"detail": "Refund exceeds payment amount"})
     
-    
+    def test_get_refund_unknown_id_returns_404(self):
+        self.mock_service.get_refund.return_value = None
+
+        response = self.client.get("/refunds/ref_unknown")
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json(), {"detail": "Refund not found"})
     
     
