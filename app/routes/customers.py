@@ -13,5 +13,8 @@ def create_customer(payload: dict, service: PaymentService = Depends(get_payment
     name = payload.get('name')
     email = payload.get('email')
     
+    if name is None:
+        raise HTTPException(status_code=400, detail="Name is required")
+    
     customer = service.create_customer(name, email)
     return customer
