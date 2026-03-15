@@ -41,3 +41,12 @@ class TestPaymentRoutes(unittest.TestCase):
         
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()["detail"], "Amount is required")
+    
+    def test_post_payments_returns_400_when_currency_missing(self):
+        response = self.client.post("/payments", json={
+            "customerId": "cus_1",
+            "amount": 2999,
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["detail"], "Currency is required")
