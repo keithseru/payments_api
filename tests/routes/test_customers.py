@@ -55,6 +55,46 @@ class TestCustomerRoutes(unittest.TestCase):
         
         self.assertEqual(response.status_code, 400)
         self.mock_service.create_customer.assert_not_called()
+    
+    def test_post_customers_name_length_1_returns_201(self):
+        self.mock_service.create_customer.return_value = {
+            "id": "cus_1",
+            "name": "A",
+            "email": "a@example.com",
+        }
+
+        response = self.client.post("/customers", json={
+            "name": "A",
+            "email": "a@example.com",
+        })
+
+        self.assertEqual(response.status_code, 201)
+    
+    def test_post_customers_name_length_100_returns_201(self):
+        long_name = "A" * 100
+        self.mock_service.create_customer.return_value = {
+            "id": "cus_1",
+            "name": long_name,
+            "email": "a@example.com",
+        }
+
+        response = self.client.post("/customers", json={
+            "name": long_name,
+            "email": "a@example.com",
+        })
+
+        self.assertEqual(response.status_code, 201)
+    
+    def test_post_customers_name_length_101_returns_400(self):
+        long_name = "A" * 101
+        self.mock_service.create_customer.side_effect = ValueError("Name is required")
+
+        response = self.client.post("/customers", json={
+            "name": long_name,
+            "email": "a@example.com",
+        })
+
+        self.assertEqual(response.status_code, 400)
 
 if __name__ == "__main__":
     unittest.main()
