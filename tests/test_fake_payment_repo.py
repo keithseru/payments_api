@@ -117,4 +117,30 @@ class TestFakePaymentRepo(unittest.TestCase):
         self.assertEqual(len(result), 2)
         self.assertIn(refund_1, result)
         self.assertIn(refund_2, result)
-        self.assertNotIn(refund_3, result) 
+        self.assertNotIn(refund_3, result)
+    
+    def test_clear_empties_all_stored_data(self):
+        self.repo.save_customer({
+            "id": "cus_1",
+            "name": "Alice",
+            "email": "alice@example.com",
+        })
+        self.repo.save_payment({
+            "id": "pay_1",
+            "customerId": "cus_1",
+            "amount": 1000,
+            "currency": "usd",
+            "status": "pending",
+        })
+        self.repo.save_refund({
+            "id": "ref_1",
+            "paymentId": "pay_1",
+            "amount": 500,
+            "status": "succeeded",
+        })
+
+        self.repo.clear()
+
+        self.assertEqual(self.repo.customers, {})
+        self.assertEqual(self.repo.payments, {})
+        self.assertEqual(self.repo.refunds, {})  
