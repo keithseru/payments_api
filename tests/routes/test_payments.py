@@ -172,3 +172,27 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), {"detail": "Invalid amount"})
+    
+    def test_post_payments_decimal_amount_returns_400(self):
+        self.mock_service.create_payment.side_effect = ValueError("Invalid amount")
+
+        response = self.client.post("/payments", json={
+            "customerId": "cus_1",
+            "amount": 9.99,
+            "currency": "usd",
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), {"detail": "Invalid amount"})
+    
+    def test_post_payments_decimal_amount_returns_400(self):
+        self.mock_service.create_payment.side_effect = ValueError("Invalid amount")
+
+        response = self.client.post("/payments", json={
+            "customerId": "cus_1",
+            "amount": 9.99,
+            "currency": "usd",
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), {"error": "Invalid amount"})
