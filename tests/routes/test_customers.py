@@ -87,7 +87,7 @@ class TestCustomerRoutes(unittest.TestCase):
     
     def test_post_customers_name_length_101_returns_400(self):
         long_name = "A" * 101
-        self.mock_service.create_customer.side_effect = ValueError("Name is required")
+        self.mock_service.create_customer.side_effect = ValueError("Name is too long")
 
         response = self.client.post("/customers", json={
             "name": long_name,

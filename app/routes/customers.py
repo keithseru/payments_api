@@ -15,6 +15,8 @@ def create_customer(payload: dict, service: PaymentService = Depends(get_payment
     
     if name is None:
         raise HTTPException(status_code=400, detail="Name is required")
+    elif len(name) > 100:
+        raise HTTPException(status_code=400, detail="Name is too long")
     
     if email is None:
         raise HTTPException(status_code=400, detail="Email is required")
