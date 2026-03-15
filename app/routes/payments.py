@@ -63,3 +63,17 @@ def get_payment(payment_id: str, service: PaymentService = Depends(get_payment_s
         raise
     except Exception:
         raise HTTPException(status_code=500, detail ="Something went wrong")
+
+@router.post("/{payment_id}/fail")
+def fail_payment(payment_id: str, service: PaymentService = Depends(get_payment_service)):
+    try:
+        payment = service.fail(payment_id)
+        return payment
+    except ValueError as e:
+        if str(e) == "Payment not found":
+            raise HTTPException(status_code=404, detail = "Payment not found")
+        if str(e).startswith("Cannot fail"):
+            raise HTTPException(status_code=409, detail = str(e))
+        raise HTTPException(status_code=400, detail = str(e))
+    except Exception:
+        raise HTTPException(status_code=500, detail = "Something went wrong")
