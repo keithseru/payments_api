@@ -29,3 +29,8 @@ def create_payment(payload: dict, service: PaymentService = Depends(get_payment_
         return payment
     except Exception:
         raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.post("/{payment_id}/capture")
+def capture_payment(payment_id: str, service: PaymentService = Depends(get_payment_service)):
+    payment = service.capture(payment_id)
+    return payment
