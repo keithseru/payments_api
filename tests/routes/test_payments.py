@@ -91,3 +91,11 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json()["detail"], "Payment not found")
+    
+    def test_post_capture_returns_409_when_payment_cannot_be_captured(self):
+        self.mock_service.capture.side_effect = ValueError("Cannot capture")
+
+        response = self.client.post("/payments/pay_1/capture")
+
+        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.json()["detail"], "Cannot capture")
