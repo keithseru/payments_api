@@ -13,6 +13,9 @@ def get_payment_service():
 def create_refund(payload: dict, service: PaymentService = Depends(get_payment_service)):
     payment_id = payload.get("paymentId")
     amount = payload.get("amount")
+    
+    if payment_id is None:
+        raise HTTPException(status_code=400, detail="Payment ID is required")
 
     refund = service.refund(payment_id, amount)
     return refund
