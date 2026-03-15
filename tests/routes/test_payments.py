@@ -1,0 +1,34 @@
+import unittest
+from unittest.mock import MagicMock
+from fastapi.testclient import TestClient
+
+from app.main import app
+from app.routes.payments import get_payment_service
+
+class TestPaymentRoutes(unittest.TestCase):
+    def setUp(self):
+        self.mock_service = MagicMock()
+        app.dependency_overrides[get_payment_service] = lambda: self.mock_service
+        self.client =TestClient(app)
+    
+    def tearDown(self):
+        app.dependency_overrides.clear()
+    
+    def test_post_payments_returns_201_and_pending_payment_on_valid_input(self):
+        self.mock_service.create_payment.return_value = {
+            'id': 'pay_1',
+            'customerId': 'cus_1',
+            'amount': 2999,
+            'currency': 'ugx',
+            'status': 'pending',
+        }
+        
+        response = self.client.post('/payments', json={
+            'customerId': 'cus_1',
+            'amount': 2999,
+            'currency': 'ugx'
+        })
+        
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()["status"], "pending")
+        self.mock_service.create_payment.assert_called_once_with("cus_1", 2999, "ugx")
