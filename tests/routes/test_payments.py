@@ -220,3 +220,25 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), {"detail": "Payment not found"})
+    
+    def test_post_payments_amount_null_returns_400(self):
+        response = self.client.post("/payments", json={
+            "customerId": "cus_1",
+            "amount": None,
+            "currency": "usd",
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), {"detail": "Amount is required"})
+    
+    def test_post_payments_empty_currency_returns_400(self):
+        self.mock_service.create_payment.side_effect = ValueError("Invalid currency")
+
+        response = self.client.post("/payments", json={
+            "customerId": "cus_1",
+            "amount": 2999,
+            "currency": "",
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), {"detail": "Invalid currency"})

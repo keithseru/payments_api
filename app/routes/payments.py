@@ -31,6 +31,8 @@ def create_payment(payload: dict, service: PaymentService = Depends(get_payment_
     try:
         payment = service.create_payment(customer_id, amount, currency)
         return payment
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise HTTPException(status_code=500, detail="Something went wrong")
 
