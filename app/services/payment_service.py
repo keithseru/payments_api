@@ -109,6 +109,9 @@ class PaymentService:
     def get_payments_for_customer(self, customer_id):
         return self.repo.find_payments_by_customer(customer_id)
     
+    def get_all_payments(self):
+        return list(self.repo.payments.values())
+    
     def _transition_status(self, payment_id, required_status, new_status, error_message):
         payment = self.repo.find_payment_by_id(payment_id)
         if not payment:

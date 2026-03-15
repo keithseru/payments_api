@@ -14,5 +14,10 @@ app.include_router(customers_router, prefix="/customers", tags=['Customers'])
 app.include_router(payments_router, prefix="/payments", tags=['Payments'])
 app.include_router(refunds_router, prefix="/refunds", tags=['Refunds'])
 
+@app.get("/")
+def root():
+    return {"message": "Payments API is running"}
 
-
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
