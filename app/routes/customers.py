@@ -8,3 +8,10 @@ def get_payment_service():
     repo = FakePaymentRepo()
     return PaymentService(repo)
 
+@router.post('', status_code=201)
+def create_customer(payload: dict, service: PaymentService = Depends(get_payment_service)):
+    name = payload.get('name')
+    email = payload.get('email')
+    
+    customer = service.create_customer(name, email)
+    return customer
