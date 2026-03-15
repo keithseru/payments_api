@@ -59,3 +59,15 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()["detail"], "Customer ID is required")
+    
+    def test_post_payments_returns_500_when_service_throws_unexpectedly(self):
+        self.mock_service.create_payment.side_effect = Exception("database exploded")
+
+        response = self.client.post("/payments", json={
+            "customerId": "cus_1",
+            "amount": 2999,
+            "currency": "ugx",
+        })
+
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.json(), {"detail": "Something went wrong"})
