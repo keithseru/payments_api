@@ -41,3 +41,15 @@ class TestFakePaymentRepo(unittest.TestCase):
         result = self.repo.find_customer_by_email('james@email.com')
         self.assertEqual(result, customer)
     
+    def test_save_payment_stores_a_payment_so_find_payment_by_id_returns_it(self):
+        payment = {
+            'id': 'pay_1',
+            'customerId': 'cus_1',
+            'amount': '2999',
+            'curency': 'ugx',
+            'status': 'pending',
+        }
+        self.repo.save_payment(payment)
+        result = self.repo.find_payment_by_id('pay_1')
+        
+        self.assertEqual(result, payment)
