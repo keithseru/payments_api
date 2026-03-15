@@ -47,6 +47,14 @@ class TestCustomerRoutes(unittest.TestCase):
         
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['detail'], 'Email is required')
+    
+    def test_post_customers_doesnt_call_service_when_input_invalid(self):
+        response = self.client.post('/customers', json ={
+            'email': 'keith@email.com'
+        })
+        
+        self.assertEqual(response.status_code, 400)
+        self.mock_service.create_customer.assert_not_called()
 
 if __name__ == "__main__":
     unittest.main()
