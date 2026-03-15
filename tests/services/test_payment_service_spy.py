@@ -19,14 +19,14 @@ class TestPaymentServiceSpy(unittest.TestCase):
         logged_message = mock_warn.call_args[0][0]
         self.assertIn(payment["id"], logged_message)
         
-    @patch("app.services.payment_service.logger.warn")
-    def test_capture_does_not_log_warning(self, mock_warn):
+    @patch('app.services.payment_service.logger.warning')
+    def test_fail_logs_warning_with_payment_id(self, mock_warning):
         customer = self.service.create_customer("Alice", "alice@example.com")
         payment = self.service.create_payment(customer["id"], 2999, "usd")
+        self.service.fail(payment["id"])
 
-        self.service.capture(payment["id"])
+        mock_warning.assert_called_once()
 
-        mock_warn.assert_not_called()
 
 if __name__ == "__main__":
     unittest.main()

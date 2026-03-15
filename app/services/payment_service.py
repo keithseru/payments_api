@@ -1,3 +1,4 @@
+from app.core.logger import logger
 from app.utils.validators import (
     validate_amount,
     validate_currency,
@@ -62,12 +63,19 @@ class PaymentService:
         )
     
     def fail(self, payment_id):
-        return self._transition_status(
-            payment_id=payment_id,
-            required_status=STATUS.PENDING,
-            new_status=STATUS.FAILED,
-            error_message="Cannot fail",
-        )
+        payment = self.repo.find_payment_by_id(payment_id)
+        if not payment:
+            raise ValueError("Payment not found")
+
+        if payment["status"] != STATUS.PENDING:
+            raise ValueError("Cannot fail")
+
+        payment["status"] = STATUS.FAILED
+        saved_payment = self.repo.save_payment(payment)
+
+        logger.warning(f"Payment failed: {payment_id}")
+
+        return saved_payment
         
     
     def refund(self, payment_id, amount):
