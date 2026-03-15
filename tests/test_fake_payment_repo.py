@@ -53,3 +53,37 @@ class TestFakePaymentRepo(unittest.TestCase):
         result = self.repo.find_payment_by_id('pay_1')
         
         self.assertEqual(result, payment)
+    
+    def test_find_payments_by_customer_returns_only_matching_payments(self):
+        payment_1 = {
+            "id": "pay_1",
+            "customerId": "cus_1",
+            "amount": 1000,
+            "currency": "usd",
+            "status": "pending",
+        }
+        payment_2 = {
+            "id": "pay_2",
+            "customerId": "cus_1",
+            "amount": 2000,
+            "currency": "usd",
+            "status": "pending",
+        }
+        payment_3 = {
+            "id": "pay_3",
+            "customerId": "cus_2",
+            "amount": 3000,
+            "currency": "usd",
+            "status": "pending",
+        }
+
+        self.repo.save_payment(payment_1)
+        self.repo.save_payment(payment_2)
+        self.repo.save_payment(payment_3)
+
+        result = self.repo.find_payment_by_customer("cus_1")
+
+        self.assertEqual(len(result), 2)
+        self.assertIn(payment_1, result)
+        self.assertIn(payment_2, result)
+        self.assertNotIn(payment_3, result)
