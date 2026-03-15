@@ -122,3 +122,11 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 2)
+    
+    def test_get_payments_returns_500_when_service_throws(self):
+        self.mock_service.get_all_payments.side_effect = Exception("boom")
+
+        response = self.client.get("/payments")
+
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.json(), {"detail": "Something went wrong"})
