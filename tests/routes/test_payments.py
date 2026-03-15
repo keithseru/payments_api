@@ -32,3 +32,12 @@ class TestPaymentRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json()["status"], "pending")
         self.mock_service.create_payment.assert_called_once_with("cus_1", 2999, "ugx")
+    
+    def test_post_payment_retunrs_400_when_amount_missing(self):
+        response = self.client.post('/payments', json={
+            'customerId': 'cus_1',
+            'currency': 'ugx',
+        })
+        
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["detail"], "Amount is required")
