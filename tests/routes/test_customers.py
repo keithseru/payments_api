@@ -112,6 +112,27 @@ class TestCustomerRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), {'detail':'Customer not found'})
     
+    def test_post_customers_invalid_email_returns_400(self):
+        self.mock_service.create_customer.side_effect = ValueError("Invalid email")
 
+        response = self.client.post("/customers", json={
+            "name": "Alice",
+            "email": "aliceexample.com",
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), {"detail": "Invalid email"})
+    
+    def test_post_customers_duplicate_email_returns_409(self):
+        self.mock_service.create_customer.side_effect = ValueError("Email already exists")
+
+        response = self.client.post("/customers", json={
+            "name": "Keith",
+            "email": "keith@example.com",
+        })
+
+        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.json(), {"detail": "Email already exists"})
+        
 if __name__ == "__main__":
     unittest.main()
