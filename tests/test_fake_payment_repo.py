@@ -20,3 +20,13 @@ class TestFakePaymentRepo(unittest.TestCase):
         def test_find_customer_by_id_returns_none_for_unknown_id(self):
             result = self.repo.find_customer_by_id("cus_unknown")
             self.assertIsNone(result)
+        
+        def test_find_customer_by_email_returns_null_when_email_doesnt_match(self):
+            customer = {
+                'id': "cus_1",
+                'name': 'Bob',
+                'email': 'bob@email.com',
+            }
+            result = self.repo.find_customer_by_email("alice@email.com")
+            self.assertIsNone(result)
+    

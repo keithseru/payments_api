@@ -39,3 +39,6 @@ class FakePaymentRepo:
             refund for refund in self.refunds.values()
             if refund["paymentId"] == payment_id
         ]
+    
+    def clear(self):
+        pass
