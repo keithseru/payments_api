@@ -38,3 +38,11 @@ class TestRefundRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()["detail"], "Payment ID is required")
+    
+    def test_post_refunds_returns_400_when_amount_missing(self):
+        response = self.client.post("/refunds", json={
+            "paymentId": "pay_1",
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["detail"], "Amount is required")
