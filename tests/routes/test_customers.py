@@ -95,6 +95,14 @@ class TestCustomerRoutes(unittest.TestCase):
         })
 
         self.assertEqual(response.status_code, 400)
+    
+    def test_get_customer_unknown_id_returns_404(self):
+        self.mock_service.get_customer.return_value = None
+        
+        response = self.client.get('/customers/cus_unknown')
+        
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json(), {'detail':'Customer not found'})
 
 if __name__ == "__main__":
     unittest.main()
