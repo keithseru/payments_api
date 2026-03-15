@@ -41,4 +41,6 @@ class FakePaymentRepo:
         ]
     
     def clear(self):
-        pass
+        self.customers.clear()
+        self.payments.clear()
+        self.refunds.clear()
