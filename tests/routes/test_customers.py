@@ -39,6 +39,14 @@ class TestCustomerRoutes(unittest.TestCase):
         
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['detail'], 'Name is required')
+    
+    def test_post_customers_return_400_when_email_missing(self):
+        response = self.client.post('/customers', json = {
+            'name': 'Keith',
+        })
+        
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['detail'], 'Email is required')
 
 if __name__ == "__main__":
     unittest.main()
