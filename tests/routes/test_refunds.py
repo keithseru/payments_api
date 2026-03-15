@@ -93,4 +93,15 @@ class TestRefundRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), {"detail": "Refund not found"})
     
+    def test_post_refunds_unexpected_failure_returns_500(self):
+        self.mock_service.refund.side_effect = Exception("boom")
+
+        response = self.client.post("/refunds", json={
+            "paymentId": "pay_1",
+            "amount": 1000,
+        })
+
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.json(), {"detail": "Something went wrong"})
+    
     

@@ -134,36 +134,8 @@ class TestCustomerRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 409)
         self.assertEqual(response.json(), {"detail": "Email already exists"})
     
-    def test_get_payments_service_failure_returns_500(self):
-        self.mock_service.get_all_payments.side_effect = Exception("database crashed loudly")
-
-        response = self.client.get("/payments")
-
-        self.assertEqual(response.status_code, 500)
-        self.assertEqual(response.json(), {"detail": "Something went wrong"})
     
-    def test_post_payments_unexpected_failure_returns_500(self):
-        self.mock_service.create_payment.side_effect = Exception("db timeout")
-
-        response = self.client.post("/payments", json={
-            "customerId": "cus_1",
-            "amount": 2999,
-            "currency": "usd",
-        })
-
-        self.assertEqual(response.status_code, 500)
-        self.assertEqual(response.json(), {"detail": "Something went wrong"})
     
-    def test_post_refunds_unexpected_failure_returns_500(self):
-        self.mock_service.refund.side_effect = Exception("boom")
-
-        response = self.client.post("/refunds", json={
-            "paymentId": "pay_1",
-            "amount": 1000,
-        })
-
-        self.assertEqual(response.status_code, 500)
-        self.assertEqual(response.json(), {"detail": "Something went wrong"})
             
 if __name__ == "__main__":
     unittest.main()
