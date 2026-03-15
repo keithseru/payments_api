@@ -36,3 +36,16 @@ def get_customer(customer_id: str, service: PaymentService = Depends(get_payment
     except Exception:
         raise HTTPException(status_code=500, detail="Something went wrong")
 
+@router.get("/{customer_id}/payments")
+def get_customer_payments(customer_id: str, service: PaymentService = Depends(get_payment_service)):
+    try:
+        payments = service.get_payments_for_customer(customer_id)
+        if payments is None:
+            raise HTTPException(status_code=404, detail="Customer not found")
+        return payments
+    except ValueError as e:
+        if str(e) == "Customer not found":
+            raise HTTPException(status_code=404, detail="Customer not found")
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")

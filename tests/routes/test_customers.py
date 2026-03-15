@@ -110,7 +110,7 @@ class TestCustomerRoutes(unittest.TestCase):
         response = self.client.get("/customers/cus_unknown/payments")
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.json(), detail="Customer not found")
+        self.assertEqual(response.json(), {'detail':'Customer not found'})
 
 if __name__ == "__main__":
     unittest.main()
