@@ -130,3 +130,21 @@ class TestPaymentRoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.json(), {"detail": "Something went wrong"})
+    
+    def test_post_payments_amount_of_1_returns_201(self):
+        self.mock_service.create_payment.return_value = {
+            "id": "pay_1",
+            "customerId": "cus_1",
+            "amount": 1,
+            "currency": "usd",
+            "status": "pending",
+        }
+
+        response = self.client.post("/payments", json={
+            "customerId": "cus_1",
+            "amount": 1,
+            "currency": "usd",
+        })
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()["amount"], 1)
