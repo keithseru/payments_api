@@ -27,6 +27,18 @@ class TestCustomerRoutes(unittest.TestCase):
         })
         
         self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()["id"], "cus_1")
+        self.assertEqual(response.json()["name"], "Keith")
+        self.assertEqual(response.json()["email"], "alice@example.com")
+        self.mock_service.create_customer.assert_called_once_with("Alice", "alice@example.com")
+    
+    def test_post_customers_returns_400_when_name_missing(self):
+        response = self.client.post('/customers', json={
+            'email': 'keith@email.com'
+        })
+        
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['detail'], 'Name is required')
 
 if __name__ == "__main__":
     unittest.main()
